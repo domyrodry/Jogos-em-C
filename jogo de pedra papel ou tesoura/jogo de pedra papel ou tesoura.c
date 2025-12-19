@@ -12,6 +12,27 @@ void mostrarMenu(int vitorias, int derrotas){
 	printf("3 - Tesoura\n\n");
 	printf("4 - Sair\n\n");
 }
+void escolhadojogador(int op,int vitorias,int derrotas){
+	printf("Voce escolheu: ");
+	switch (op){
+		case 1:printf("Pedra\n");break;
+		case 2:printf("Papel\n");break;
+		case 3:printf("Tesoura\n");break;
+		case 4:
+			system("cls");
+			printf("O placar final ficou: tu %d x %d computador\n",vitorias,derrotas);
+			if(vitorias==derrotas)
+				printf("Empatou com o computador!!\n");
+			else{
+				if(vitorias>derrotas)
+					printf("Ganhou do computador!!!\nPARABENS!!!!!\n");
+				else
+					printf("Perdeu para o computador!");
+			}
+			system("pause");
+			exit(0);break;
+	}
+}
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
@@ -21,25 +42,7 @@ setlocale(LC_ALL,"Portuguese");
 		mostrarMenu(vitorias, derrotas);
 		printf("Digite sua escolha:");
 		scanf("%d",&op);
-		printf("Voce escolheu: ");
-		switch (op){
-			case 1:printf("Pedra\n");break;
-			case 2:printf("Papel\n");break;
-			case 3:printf("Tesoura\n");break;
-			case 4:
-				system("cls");
-				printf("O placar final ficou: tu %d x %d computador\n",vitorias,derrotas);
-				if(vitorias==derrotas)
-					printf("Empatou com o computador!!\n");
-				else{
-					if(vitorias>derrotas)
-						printf("Ganhou do computador!!!\nPARABENS!!!!!\n");
-					else
-						printf("Perdeu para o computador!");
-				}
-				system("pause");
-				return 0;break;
-		}
+		escolhadojogador(op, vitorias, derrotas);
 		cp=rand()%3+1;
 		printf("computador escolheu: ");
 		switch (cp){
