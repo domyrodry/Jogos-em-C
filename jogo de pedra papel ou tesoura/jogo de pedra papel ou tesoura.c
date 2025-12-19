@@ -2,22 +2,23 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
-
-
+void mostrarMenu(int vitorias, int derrotas){
+	printf("\nJogo: Pedra, Papel e Tesoura\n\n");
+	printf("O placar está: tu %d x %d computador\n",vitorias,derrotas);
+	printf("====================================\n\n");
+	printf("Escolha uma opçao:\n\n");
+	printf("1 - Pedra\n\n");
+	printf("2 - Papel\n\n");
+	printf("3 - Tesoura\n\n");
+	printf("4 - Sair\n\n");
+}
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
 	int cp,op,vitorias=0,derrotas=0;
 	srand(time(NULL));
 	do{
-		printf("\nJogo: Pedra, Papel e Tesoura\n\n");
-		printf("O placar está: tu %d x %d computador\n",vitorias,derrotas);
-		printf("====================================\n\n");
-		printf("Escolha uma opçao:\n\n");
-		printf("1 - Pedra\n\n");
-		printf("2 - Papel\n\n");
-		printf("3 - Tesoura\n\n");
-		printf("4 - Sair\n\n");
+		mostrarMenu(vitorias, derrotas);
 		printf("Digite sua escolha:");
 		scanf("%d",&op);
 		printf("Voce escolheu: ");
