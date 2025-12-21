@@ -31,7 +31,7 @@ void escolhadojogador(int *op,int *vitorias,int *derrotas){
 					if(*vitorias>*derrotas)
 						printf("Ganhou do computador!!!\nPARABENS!!!!!\n");
 					else
-						printf("Perdeu para o computador!");
+						printf("Perdeu para o computador!\n");
 				}
 				system("pause");
 				exit(0);break;

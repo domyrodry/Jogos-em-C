@@ -1,0 +1,1 @@
+jogo de quiz de perguntas bem simples pra aprender mais sobre strings e arrays.
