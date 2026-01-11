@@ -1,0 +1,1 @@
+jogo de casino pra testar as minhas habilidades em C.:)

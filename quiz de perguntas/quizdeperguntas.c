@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<locale.h>
 #include <string.h>
+#include <windows.h>
+#include <mmsystem.h>
+
 void mostrarMenu(	char *pergunta[], int acertos, int erros, int i){
 		printf("==========QUIZ==========\n\n");
 		printf("Acertos: %d\n",acertos);
@@ -67,11 +70,13 @@ setlocale(LC_ALL,"Portuguese");
 			if(strcmp(opcoes[resposta+i*4-1], opcaocorreta[i])== 0){
 				printf("Resposta esta correta!!\n");
 				acertos++;
+				Beep(750, 300);
 			}
 			else{
 				printf("Resposta esta incorreta!!!!\n");
 				printf("A opçao correta é %s\n",opcaocorreta[i]);
 				erros++;
+				PlaySound("som-a.wav", NULL, SND_FILENAME | SND_SYNC);
 			}
 			system("pause");
 			system("cls");
