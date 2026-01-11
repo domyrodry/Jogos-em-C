@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <locale.h>
 #include <windows.h>
+void quaseganho(int num1,int num2,int premio){
+	if(num1==num2){
+		printf(" Quase! Continua a tentar +%d creditos\n",(20*premio)/100);
+	}
+}
 int simbolos(int num,char *slot){
 			switch(num){		
 				case 1:	*slot='B';
@@ -22,7 +27,7 @@ int simbolos(int num,char *slot){
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
-	int opmenu,creditos=100,jogos=0,aposta,num1,num2,num3,opslot,premio;
+	int opmenu,creditos=100,jogos=0,aposta,num1,num2,num3,opslot,premio1,premio2,premio3;
 	char modorapido,slot1,slot2,slot3;
 	srand(time(NULL));
 	do{
@@ -64,18 +69,22 @@ setlocale(LC_ALL,"Portuguese");
 								printf(".\n");
 								Sleep(2000);
 								}
-							premio=simbolos(num1,&slot1);
-							simbolos(num2,&slot2);
-							simbolos(num3,&slot3);
+							premio1=simbolos(num1,&slot1);
+							premio2=simbolos(num2,&slot2);
+							premio3=simbolos(num3,&slot3);
 							printf("%c |%c | %c\n",slot1,slot2,slot3);
 							printf("Resultado: ");
 							if(num1==num2 && num2==num3){
-								creditos=creditos+(aposta*premio);
-								printf(" Ganhaste!! +%d creditos\n",aposta*premio);
+								creditos=creditos+(aposta*premio1);
+								printf(" Ganhaste!! +%d creditos\n",aposta*premio1);
 							}
-							else{
-								creditos=creditos-aposta;
-								printf(" Perdeste!! -%d Creditos\n",aposta);
+							else{							
+								quaseganho(num1,num2,premio1);
+								quaseganho(num2,num3,premio2);
+								if(num1!=num2 && num2!=num3 && num1!=num3){
+									creditos=creditos-aposta;
+									printf(" Perdeste!! -%d Creditos\n",aposta);
+								}
 							}
 							printf("1 - Jogar outra vez com a mesma aposta\n");
 							printf("2 - Mudar valor da aposta/mudar velocidade\n");
