@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <locaLe.h>
+#include <locale.h>
 #include <windows.h>
 int simbolos(int num,char *slot){
 			switch(num){		
@@ -22,11 +22,9 @@ int simbolos(int num,char *slot){
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
-	int opmenu,creditos=100,jogos=0,aposta,num1,num2,num3,opslot;
+	int opmenu,creditos=100,jogos=0,aposta,num1,num2,num3,opslot,premio;
 	char modorapido,slot1,slot2,slot3;
 	srand(time(NULL));
-
-
 	do{
 		printf("=== MENU ===\n");
 		printf("1 - Jogar\n");
@@ -66,14 +64,14 @@ setlocale(LC_ALL,"Portuguese");
 								printf(".\n");
 								Sleep(2000);
 								}
-							simbolos(num1,&slot1);
+							premio=simbolos(num1,&slot1);
 							simbolos(num2,&slot2);
 							simbolos(num3,&slot3);
 							printf("%c |%c | %c\n",slot1,slot2,slot3);
 							printf("Resultado: ");
 							if(num1==num2 && num2==num3){
-								creditos=creditos+(aposta*num1);
-								printf(" Ganhaste!! +%d creditos\n",aposta*num1);
+								creditos=creditos+(aposta*premio);
+								printf(" Ganhaste!! +%d creditos\n",aposta*premio);
 							}
 							else{
 								creditos=creditos-aposta;
@@ -89,8 +87,6 @@ setlocale(LC_ALL,"Portuguese");
 							}
 						}while(opslot!=3);
 					}while(aposta!=0);
-					printf("Prima qualquer tecla pra voltar ao menu:");
-					getch();
 					system("cls");
 					;break;
 			case 2: printf("Voce tem %d creditos\n",creditos);break;
@@ -109,15 +105,19 @@ setlocale(LC_ALL,"Portuguese");
 					printf("\nComo jogar:\n");
 					printf("1. Escolhe Jogar no menu.\n");
 					printf("2. Escolhe quanto queres apostar nessa jogada.\n");
-					printf("3. O programa mostra 3 símbolos aleatórios.\n");
-					printf("4. Se forem 3 iguais, ganhas pontos multiplicados pela tua aposta.\n");
-					printf("5. Se forem diferentes, perdes a aposta.\n");
+					printf("3. Escolhe se queres jogar no **modo rápido**:\n");
+					printf(" - 's' - os rolós giram rapidamente, sem animação\n");
+					printf(" - 'n' - os rolós giram lentamente, com pontos e pausas\n");
+					printf("4. O programa mostra 3 símbolos aleatórios.\n");
+					printf("5. Se forem 3 iguais, ganhas pontos multiplicados pela tua aposta.\n");
+					printf("6. Se forem diferentes, perdes a aposta.\n");
 					printf("\nDicas:\n");
 					printf("- Quanto mais apostares, maior pode ser o prémio.\n");
 					printf("- Símbolos valiosos como D ou 7 dão ainda mais pontos.\n");
 					printf("- Continua a jogar enquanto tiveres créditos.\n");
 					printf("- Podes ver os créditos no menu a qualquer momento.\n");
 					printf("Prima qualquer tecla pra voltar ao menu:");
+					printf("- O **modo rápido** permite rodar sem esperar pelas animações.");
 					getch();
 					system("cls");
 					break;
