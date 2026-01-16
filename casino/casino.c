@@ -58,7 +58,7 @@ const char* cartas(int num) {
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
-	int opmenu,creditos=100,jogos=0,aposta,num1,num2,num3,opslot,premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1,numjogador2,nummesa2,nummesa1;
+	int opmenu,creditos=100,jogos=0,aposta,lose,num1,num2,num3,opslot,premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1,numjogador2,nummesa2,nummesa1;
 	char modorapido,slot1,slot2,slot3;
 	srand(time(NULL));
 	do{
@@ -155,65 +155,89 @@ setlocale(LC_ALL,"Portuguese");
 							if(aposta>creditos){
 								printf("\nAposta invalida, creditos insuficientes\n");
 								getch();
-							}
+						}
 						}while(aposta>creditos);
 						do{
+							lose=0;
 							maojogador=0;
 							maomesa=0;
 							numjogador1=rand()%13+1;
 							numjogador2=rand()%13+1;						
 							nummesa1=rand()%13+1;
-							nummesa2<=rand()%13+1;
+							nummesa2=rand()%13+1;
 							system("cls");
 							printf("=== BLACKJACK ===\n\n");
 							printf("Creditos: %d\n",creditos);
 							printf("Aposta atual: %d\n",aposta);
 							printf("\n\nAs tuas cartas:\n");
 							printf("[ %s ] [ %s ]  \n",cartas(numjogador1),cartas(numjogador2));
-							maojogador=maojogador+numjogador;
+							maojogador=numjogador1+numjogador2;
 							printf("\nTotal: %d\n\n",maojogador);
 							printf("Cartas da mesa:\n");
 							printf("[ %s ] [ ? ] \n",cartas(nummesa1));
-							maomesa=maomesa+nummesa;
-							while(pedircarta=1 || maojogador<=21){
+							maomesa=nummesa1;
+							pedircarta=1;
+							if(maojogador==21){
+								printf("Black jack voce fez 21!!!");
+								printf("Resultado:\n");
+								printf("Ganhou a ronda +%d creditos\n"),aposta*1.5;
+								creditos=creditos+aposta*1.5;
+								lose=1;
+							}
+							while(pedircarta==1 && maojogador<=21 && lose==0){
 								printf("\n\n------------\n");
 								printf("\n1 - Pedir carta\n");
 								printf("2 - Parar\n");
 								printf("Escolha: ");
 								scanf("%d",&pedircarta);
-								if (pedircarta=1){
+								if (pedircarta==1){
 									numjogador=rand()%13+1;
 									printf("[ %s ] ",cartas(numjogador));
 									maojogador=maojogador+numjogador;	
 									printf("\nTotal: %d\n\n",maojogador);						
 								}
 							}
+							if(maojogador>21){
+								printf("\n\nVoce estourou!!!!\n");
+								printf("Resultado:\n");
+								printf("Perdeu a ronda -%d creditos\n"),aposta;
+								creditos=creditos-aposta;
+								lose=1;
+							}
 							printf("[ %s ] [ %s ] \n",cartas(nummesa1),cartas(nummesa2));
 							maomesa=nummesa1+nummesa2;
 							printf("\nTotal: %d\n\n",maomesa);
+							if(maomesa==21 && lose==0){
+								printf("Black jack Mesa fez 21!!!");
+								printf("Resultado:\n");
+								printf("Perdeu a ronda -%d creditos\n"),aposta*1.5;
+								creditos=creditos-aposta*1.5;
+								lose=1;
+							}
 							numjogador=0;
-							if(maomesa<17){
+							if(maomesa<17 && lose==0){
 								for(;maomesa<21;maomesa=maomesa+numjogador){
-									printf("Mesa pede carta...");
+									printf("Mesa pede carta...\n");
 									numjogador=rand()%13+1;
 									printf("[ %s ] ",cartas(numjogador));
+									maomesa=maomesa+numjogador;
 									printf("\nTotal: %d\n\n",maomesa);						
 								}
 							}
-							if(maomesa>21){
+							if(maomesa>21 && lose==0){
 								printf("\n\nMesa estourou!!!!\n");
 								printf("Resultado:\n");
 								printf("Ganhaste a ronda +%d creditos\n"),aposta;
 								creditos=creditos+aposta;
 							}
 							else{
-								printf("\nTotal: %d\n",maojogador);
-								printf("\nTotal: %d\n",maomesa);
-								if(maomesa<maojogador){
+								printf("\nTotal dos seus pontos: %d\n",maojogador);
+								printf("\nTotal da mesa: %d\n",maomesa);
+								if(maomesa<maojogador && lose==0){
 									printf("Resultado:\n");
 									printf("Ganhaste a ronda +%d creditos\n"),aposta;
 									creditos=creditos+aposta;
-									printf("Créditos atuais: %d",creditos);	
+									printf("Créditos atuais: %d"),creditos;	
 								}
 							}
 							do{
@@ -234,7 +258,6 @@ setlocale(LC_ALL,"Portuguese");
 					}while(aposta!=0);
 					system("cls");
 					;break;
-					
 			case 3: printf("Voce tem %d creditos\n",creditos);break;
 			case 4:	system("cls");
 					printf("\n=== COMO JOGAR AO SLOT ===\n");
