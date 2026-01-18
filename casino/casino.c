@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <locale.h>
 #include <windows.h>
-void fimaposta(int aposta,int creditos,int *opslot){
+void fimaposta(int aposta,int creditos,int *opmenu){
 	do{
 		printf("\n------------------------------------------------\n");
 		printf("1 - Jogar outra vez com a mesma aposta\n");
 		printf("2 - Mudar valor da aposta\n");
 		printf("3 - Voltar ao menu\n");
 		printf("Escolhe uma opção:");
-		scanf("%d",&*opslot);
+		scanf("%d",&*opmenu);
 		if(aposta>creditos){
 			printf("\nAposta invalida, creditos insuficientes\n");
 			getch();
@@ -103,7 +103,9 @@ const char* cartas(int num) {
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
-	int opmenu,vermelho,azul,notificacoes=1,autosave=1,creditos=100,jogos=0,aposta,lose,num1,num2,num3,opslot,premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1,numjogador2,nummesa2,nummesa1;
+	int opmenu,vermelho,azul,notificacoes=1,autosave=1,creditos=100,aposta,lose,num1,num2,num3;
+	int premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1;
+	int numjogador2,nummesa2,nummesa1;
 	char modorapido,slot1,slot2,slot3,sn;
 	FILE *f;
 	srand(time(NULL));
@@ -200,10 +202,10 @@ setlocale(LC_ALL,"Portuguese");
 									printf(" Perdeste!! -%d Creditos\n",aposta);
 								}
 							}
-							fimaposta(aposta,creditos,&opslot);
+							fimaposta(aposta,creditos,&opmenu);
 							guardarcreditos(creditos,notificacoes,autosave);
-						}while(opslot==1);
-					}while(opslot!=3);
+						}while(opmenu==1);
+					}while(opmenu!=3);
 					system("cls");
 					;break;
 			case 2: do{
@@ -312,10 +314,10 @@ setlocale(LC_ALL,"Portuguese");
 							if(maomesa==maojogador && lose==0){
 								printf("Empataste Com a mesa");
 							}
-							fimaposta(aposta,creditos,&opslot);
+							fimaposta(aposta,creditos,&opmenu);
 							guardarcreditos(creditos,notificacoes,autosave);
-						}while(opslot==1);
-					}while(opslot==2);
+						}while(opmenu==1);
+					}while(opmenu==2);
 					system("cls");
 					;break;
 			case 3:	do{
@@ -340,14 +342,38 @@ setlocale(LC_ALL,"Portuguese");
 						scanf("%d",&opmenu);
 						nummesa1=rand()%6+1;
 						nummesa2=rand()%6+1;
-						printf("\n\nVermelho jogar os dados...\n");
-						printf("Dados Vermelho:\n [ %d ] [ %d ]\n",nummesa1,nummesa2);						
+						if(modorapido=='s'||modorapido=='S')
+							printf("\n\nVermelho jogar os dados...\n");
+						else{
+							printf("\n\nVermelho jogar os dados");
+							Sleep(1000);
+							printf(".");
+							Sleep(1000);
+							printf(".");
+							Sleep(1000);
+							printf(".\n");
+							Sleep(2000);
+						}
+						printf("Dados Vermelho:\n[ %d ] [ %d ]\n",nummesa1,nummesa2);						
 						vermelho=nummesa1+nummesa2;
+						printf("Total: %d\n",vermelho);
 						nummesa1=rand()%6+1;
 						nummesa2=rand()%6+1;
-						printf("\n\nAzul jogar os dados...\n");
-						printf("Dados Azul:\n [ %d ] [ %d ]\n\n",nummesa1,nummesa2);						
+						if(modorapido=='s'||modorapido=='S')
+							printf("\n\nAzul jogar os dados...\n");
+						else{
+							printf("\n\nAzul jogar os dados");
+							Sleep(1000);
+							printf(".");
+							Sleep(1000);
+							printf(".");
+							Sleep(1000);
+							printf(".\n");
+							Sleep(2000);
+						}
+						printf("Dados Azul:\n[ %d ] [ %d ]\n",nummesa1,nummesa2);						
 						azul=nummesa1+nummesa2;
+						printf("Total: %d\n\n",azul);
 						switch(opmenu){
 							case 1:
 								if(azul>vermelho){
@@ -412,14 +438,13 @@ setlocale(LC_ALL,"Portuguese");
 							printf("1 - Jogar outra vez\n");
 							printf("2 - Voltar ao menu\n");
 							printf("Escolhe uma opção:");
-							scanf("%d",&opslot);
+							scanf("%d",&opmenu);
 							if(aposta>creditos){
 								printf("\nAposta invalida, creditos insuficientes\n");
 								getch();
 							}
 						}while(aposta>creditos);
-					}while(opmenu==2);
-					system("cls");
+					}while(opmenu==1);
 					break;
 			case 4: printf("Voce tem %d creditos\n",creditos);
 					printf("Pressa qualquer tecla pra Continuar...");
