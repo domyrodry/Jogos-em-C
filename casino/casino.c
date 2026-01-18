@@ -1,6 +1,20 @@
 #include <stdio.h>
 #include <locale.h>
 #include <windows.h>
+void fimaposta(int aposta,int creditos,int *opslot){
+	do{
+		printf("\n------------------------------------------------\n");
+		printf("1 - Jogar outra vez com a mesma aposta\n");
+		printf("2 - Mudar valor da aposta\n");
+		printf("3 - Voltar ao menu\n");
+		printf("Escolhe uma opção:");
+		scanf("%d",&*opslot);
+		if(aposta>creditos){
+			printf("\nAposta invalida, creditos insuficientes\n");
+			getch();
+		}
+	}while(aposta>creditos);
+}
 void configuracoes(autosave,notificacoes){
 	printf("============Configuraçoes============\n");
 	printf("1- Salvar creditos automaticamente ");
@@ -15,6 +29,7 @@ void configuracoes(autosave,notificacoes){
 		printf("DESATIVADO\n");
 }
 void guardarcreditos(int creditos,int notificacoes,int autosave){
+	int checkcreditos;
 	if (autosave){
 		if(notificacoes){
 			printf("A salvar creditos.");
@@ -79,7 +94,7 @@ const char* cartas(int num) {
         case 8:  return "8";
         case 9:  return "9";
         case 10: return "10";
-        case 11: return "J";
+        case 11: return "J"; 
         case 12: return "Q";
         case 13: return "K";
     }
@@ -88,7 +103,7 @@ const char* cartas(int num) {
 int main()
 {
 setlocale(LC_ALL,"Portuguese");
-	int opmenu,notificacoes=1,autosave=1,creditos=100,jogos=0,aposta,lose,num1,num2,num3,opslot,premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1,numjogador2,nummesa2,nummesa1;
+	int opmenu,vermelho,azul,notificacoes=1,autosave=1,creditos=100,jogos=0,aposta,lose,num1,num2,num3,opslot,premio1,premio2,premio3,i,numjogador=0,maojogador,maomesa=0,nummesa,pedircarta,numjogador1,numjogador2,nummesa2,nummesa1;
 	char modorapido,slot1,slot2,slot3,sn;
 	FILE *f;
 	srand(time(NULL));
@@ -120,10 +135,12 @@ setlocale(LC_ALL,"Portuguese");
 		printf("=== MENU ===\n");
 		printf("1 - slot machine\n");
 		printf("2 - Black jack\n");
-		printf("3 - Ver creditos\n");
-		printf("4 - Tutorial\n");
-		printf("5 - Configuraçoes\n");
-		printf("6 - Sair\n");
+		printf("3 - Azul VS Vermelho\n");
+		printf("4 - Ver creditos\n");
+		printf("5 - Tutorial\n");
+		printf("6 - Reset\n");
+		printf("7 - Configuraçoes\n");
+		printf("8 - Sair\n");
 		printf("Escolha:");
 		scanf("%d",&opmenu);
 		switch (opmenu){
@@ -183,21 +200,8 @@ setlocale(LC_ALL,"Portuguese");
 									printf(" Perdeste!! -%d Creditos\n",aposta);
 								}
 							}
-							do{
-								guardarcreditos(creditos,notificacoes,autosave);
-								printf("1 - Jogar outra vez com a mesma aposta\n");
-								printf("2 - Mudar valor da aposta/mudar velocidade\n");
-								printf("3 - Voltar ao menu\n");
-								printf("Escolhe uma opção:");
-								scanf("%d",&opslot);
-								if(opslot==3){
-									aposta=0;
-									}
-								if(opslot==1 && aposta>creditos){
-									printf("\nAposta invalida, creditos insuficientes\n");
-									getch();
-									}
-							}while(opslot==1 && aposta>creditos);
+							fimaposta(aposta,creditos,&opslot);
+							guardarcreditos(creditos,notificacoes,autosave);
 						}while(opslot==1);
 					}while(opslot!=3);
 					system("cls");
@@ -212,7 +216,7 @@ setlocale(LC_ALL,"Portuguese");
 							if(aposta>creditos){
 								printf("\nAposta invalida, creditos insuficientes\n");
 								getch();
-						}
+							}
 						}while(aposta>creditos);
 						do{
 							lose=0;
@@ -308,27 +312,120 @@ setlocale(LC_ALL,"Portuguese");
 							if(maomesa==maojogador && lose==0){
 								printf("Empataste Com a mesa");
 							}
-							do{
-								guardarcreditos(creditos,notificacoes,autosave);
-								printf("\n1 - Jogar outra vez com a mesma aposta\n");
-								printf("2 - Mudar valor da aposta\n");
-								printf("3 - Voltar ao menu\n");
-								printf("Escolhe uma opção:");
-								scanf("%d",&opslot);
-								if(aposta>creditos){
-									printf("\nAposta invalida, creditos insuficientes\n");
-									getch();
-								}
-							}while(aposta>creditos);
+							fimaposta(aposta,creditos,&opslot);
+							guardarcreditos(creditos,notificacoes,autosave);
 						}while(opslot==1);
 					}while(opslot==2);
 					system("cls");
 					;break;
-			case 3: printf("Voce tem %d creditos\n",creditos);
+			case 3:	do{
+						do{
+							system("cls");
+							printf("=== Azul VS Vermelho ===\n");
+							printf("Creditos: %d\n",creditos);					
+							printf("Quanto quer apostar: ");
+							scanf("%d",&aposta);
+							if(aposta>creditos){
+								printf("\nAposta invalida, creditos insuficientes\n");
+								getch();
+							}
+						}while(aposta>creditos);
+						printf("Quer jogar no modo rapido?(s/n):");
+						scanf(" %c",&modorapido);
+						printf("\n\nEscolhe uma cor para apostar:\n");
+						printf("1 - Azul\n");
+						printf("2 - Vermelho\n");
+						printf("3 - Verde (Empate)\n\n");
+						printf("Escolha: ");
+						scanf("%d",&opmenu);
+						nummesa1=rand()%6+1;
+						nummesa2=rand()%6+1;
+						printf("\n\nVermelho jogar os dados...\n");
+						printf("Dados Vermelho:\n [ %d ] [ %d ]\n",nummesa1,nummesa2);						
+						vermelho=nummesa1+nummesa2;
+						nummesa1=rand()%6+1;
+						nummesa2=rand()%6+1;
+						printf("\n\nAzul jogar os dados...\n");
+						printf("Dados Azul:\n [ %d ] [ %d ]\n\n",nummesa1,nummesa2);						
+						azul=nummesa1+nummesa2;
+						switch(opmenu){
+							case 1:
+								if(azul>vermelho){
+									printf("Resultado : Ganhaste!! +%d creditos\n",aposta);
+									creditos=creditos+aposta;
+									printf("Creditos atuais: %d",creditos);
+								}
+								else{
+									if(azul==vermelho){
+										printf("Resultado : Empate!! -%d creditos\n",aposta);
+										creditos=creditos-aposta;
+										printf("Creditos atuais: %d",creditos);
+									}
+									else{
+										printf("Resultado : Perdeste!! -%d creditos\n",aposta);
+										creditos=creditos-aposta;
+										printf("Creditos atuais: %d",creditos);	
+									}
+								}
+							break;
+							case 2:
+								if(vermelho>azul){
+									printf("Resultado : Ganhaste!! +%d creditos\n",aposta);
+									creditos=creditos+aposta;
+									printf("Creditos atuais: %d",creditos);
+								}
+								else{
+									if(azul==vermelho){
+										printf("Resultado : Empate!! -%d creditos\n",aposta);
+										creditos=creditos-aposta;
+										printf("Creditos atuais: %d",creditos);
+									}
+									else{
+										printf("Resultado : Perdeste!! -%d creditos\n",aposta);
+										creditos=creditos-aposta;
+										printf("Creditos atuais: %d",creditos);	
+									}
+								}
+							break;
+							case 3:
+								if(azul>vermelho){
+									printf("Resultado : Perdeste!! -%d creditos\n",aposta);
+									creditos=creditos-aposta;
+									printf("Creditos atuais: %d",creditos);
+								}
+								else{
+									if(azul==vermelho){
+										printf("Resultado : Empate!! +%d creditos\n",aposta*10);
+										creditos=creditos+aposta*10;
+										printf("Creditos atuais: %d",creditos);
+									}
+									else{
+										printf("Resultado : Perdeste!! -%d creditos\n",aposta);
+										creditos=creditos-aposta;
+										printf("Creditos atuais: %d",creditos);	
+									}
+								}
+							break;
+						}
+						do{
+							printf("\n------------------------------------------------\n");
+							printf("1 - Jogar outra vez\n");
+							printf("2 - Voltar ao menu\n");
+							printf("Escolhe uma opção:");
+							scanf("%d",&opslot);
+							if(aposta>creditos){
+								printf("\nAposta invalida, creditos insuficientes\n");
+								getch();
+							}
+						}while(aposta>creditos);
+					}while(opmenu==2);
+					system("cls");
+					break;
+			case 4: printf("Voce tem %d creditos\n",creditos);
 					printf("Pressa qualquer tecla pra Continuar...");
 					getch();
 					break;
-			case 4:	do{
+			case 5:	do{
 						system("cls");
 						printf("1 - Slot Machine\n");
 						printf("2 - Blackjack\n");
@@ -377,7 +474,29 @@ setlocale(LC_ALL,"Portuguese");
 					}while(opmenu!=3);
 					system("cls");
 					break;
-				case 5:	do{
+				case 6:	do{
+							system("cls");
+							printf("=============BONUS============\n\n");
+							printf("A cada 10 minutos ganhas 100 creditos\n");
+							printf("1 - Recolher\n");
+							printf("2 - SAIR\n");
+							printf("Escolha:");
+							scanf("%d",&opmenu);
+							if(opmenu==1){						
+								printf("Quer mesmo resetar seus creditos!!(s/n):");
+								scanf(" %c",&sn);
+								if(sn=='s' || sn=='S'){			
+									creditos=100;
+									printf("tens 100 creditos!\n");
+									guardarcreditos(creditos,notificacoes,autosave);
+
+								}
+							}
+							printf("\nPressa qualquer tecla pra Continuar...");
+							getch();
+						}while(opmenu!=2);
+						break;
+				case 7:	do{
 							system("cls");
 							configuracoes(autosave,notificacoes);
 							printf("3 -  Voltar ao MENU \n");
@@ -388,12 +507,12 @@ setlocale(LC_ALL,"Portuguese");
 							if(opmenu==2)
 								notificacoes= !notificacoes;
 							f=fopen("config.txt","w");
-							fprintf(f,"%d %d",autosave,notificacoes);
+							fprintf(f,"%d\n%d",autosave,notificacoes);
 							fclose(f);
 						}while(opmenu!=3);
 						
 						break;
 		}
-	}while(opmenu!=6);
+	}while(opmenu!=8);
 getch();
 }
